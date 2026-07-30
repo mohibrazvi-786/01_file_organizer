@@ -5,24 +5,18 @@ FILE_CATEGORIES = {
     ".doc": "Documents",
     ".docx": "Documents",
     ".txt": "Documents",
-
     ".jpg": "Images",
     ".jpeg": "Images",
     ".png": "Images",
     ".gif": "Images",
-
     ".mp4": "Videos",
     ".mkv": "Videos",
     ".avi": "Videos",
-
     ".mp3": "Music",
     ".wav": "Music",
-
     ".zip": "Archives",
     ".rar": "Archives",
-
     ".exe": "Applications",
-
     ".py": "Python",
 }
 

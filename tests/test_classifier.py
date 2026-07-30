@@ -3,13 +3,21 @@ from pathlib import Path
 from src.file_organizer.classifier import get_category
 
 
-def main() -> None:
-    print(get_category(Path("resume.pdf")))
-    print(get_category(Path("photo.jpg")))
-    print(get_category(Path("movie.mp4")))
-    print(get_category(Path("song.mp3")))
-    print(get_category(Path("unknown.xyz")))
+def test_pdf():
+    assert get_category(Path("resume.pdf")) == "Documents"
 
 
-if __name__ == "__main__":
-    main()
+def test_png():
+    assert get_category(Path("photo.png")) == "Images"
+
+
+def test_mp4():
+    assert get_category(Path("movie.mp4")) == "Videos"
+
+
+def test_mp3():
+    assert get_category(Path("song.mp3")) == "Music"
+
+
+def test_unknown():
+    assert get_category(Path("abc.xyz")) == "Others"

@@ -1,8 +1,11 @@
 from pathlib import Path
 
-def scan_directory(folder: Path) -> None:
-    print(folder)
+from src.file_organizer.organizer import scan_directory
 
-    for item in folder.iterdir():
-        print(item)
-        print("Is File:", item.is_file())
+
+def test_scan_directory():
+    folder = Path("sample_files")
+
+    scan_directory(folder)
+
+    assert folder.exists()
