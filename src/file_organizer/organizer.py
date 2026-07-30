@@ -1,15 +1,30 @@
 from pathlib import Path
 
+from .classifier import get_category
+from .mover import move_file
 
-def scan_directory(directory: Path) -> list[Path]:
+
+def scan_directory(folder: Path) -> None:
     """
-    Scan a directory and return all files.
+    Scan a directory and organize files.
     """
 
-    files: list[Path] = []
+    total = 0
 
-    for item in directory.iterdir():
-        if item.is_file():
-            files.append(item)
+    print("\nScanning folder...\n")
 
-    return files
+    for item in folder.iterdir():
+
+        if not item.is_file():
+            continue
+
+        category = get_category(item)
+
+        print(f"{item.name:<35} -> {category}")
+
+        move_file(item, category)
+
+        total += 1
+
+    print("-" * 50)
+    print(f"Files Organized : {total}")
