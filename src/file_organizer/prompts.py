@@ -1,37 +1,40 @@
-def build_classification_prompt(filename: str) -> str:
+def build_classification_prompt(
+    filename: str,
+    preview: str,
+) -> str:
     """
-    Build a prompt for Gemini.
+    Build the prompt sent to Gemini.
     """
 
     return f"""
-You are an expert file organizer.
+You are an intelligent file classifier.
 
-Classify this file.
+Classify the following file into ONE category.
+
+Allowed categories:
+
+- Documents
+- Images
+- Videos
+- Music
+- Programming
+- Finance
+- Archives
+- Others
 
 Filename:
 {filename}
 
-Choose ONE category from:
+Content Preview:
+{preview}
 
-Documents
-Images
-Videos
-Music
-Archives
-Programming
-Finance
-Education
-Personal
-Applications
-Others
-
-Return ONLY valid JSON.
+Respond ONLY with valid JSON.
 
 Example:
 
 {{
-    "category": "Images",
+    "category": "Programming",
     "confidence": 0.98,
-    "reason": "PNG image"
+    "reason": "Python source code."
 }}
 """

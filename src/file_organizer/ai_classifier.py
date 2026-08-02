@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+from .file_preview import get_file_preview
 from .llm import ask_gemini
 from .models import FileClassification
 from .prompts import build_classification_prompt
@@ -11,7 +12,12 @@ def classify_file(file: Path) -> FileClassification:
     Classify a file using Gemini.
     """
 
-    prompt = build_classification_prompt(file.name)
+    preview = get_file_preview(file)
+
+    prompt = build_classification_prompt(
+        filename=file.name,
+        preview=preview,
+    )
 
     try:
         response = ask_gemini(prompt)
