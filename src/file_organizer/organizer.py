@@ -5,15 +5,8 @@ from .ai_classifier import classify_file
 from .mover import move_file
 
 SKIP_FOLDERS = {
-    "Documents",
-    "Images",
-    "Music",
-    "Videos",
-    "Programming",
-    "Finance",
-    "Archives",
-    "Others",
     "organized_files",
+    "__pycache__",
 }
 
 

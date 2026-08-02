@@ -1,43 +1,38 @@
-import json
 from pathlib import Path
 
 from .file_preview import get_file_preview
 from .llm import ask_gemini
 from .models import FileClassification
 from .prompts import build_classification_prompt
+from .rule_classifier import classify_by_extension
 
 
 def classify_file(file: Path) -> FileClassification:
     """
-    Classify a file using Gemini.
+    Hybrid classifier.
+
+    1. Try rule-based classification.
+    2. If unknown, ask Gemini.
+    3. If Gemini fails, return a safe fallback.
     """
 
-    preview = get_file_preview(file)
+    # Step 1: Fast rule-based classification
+    classification = classify_by_extension(file)
 
-    prompt = build_classification_prompt(
-        filename=file.name,
-        preview=preview,
-    )
+    if classification is not None:
+        return classification
+
+    # Step 2: AI classification
+    preview = get_file_preview(file)
+    prompt = build_classification_prompt(file.name, preview)
 
     try:
-        response = ask_gemini(prompt)
-
-        print("\n========== GEMINI RESPONSE ==========")
-        print(response)
-        print("=====================================\n")
-
-        data = json.loads(response)
-
-        return FileClassification(
-            category=data["category"],
-            confidence=float(data["confidence"]),
-            reason=data["reason"],
-        )
+        return ask_gemini(prompt)
 
     except Exception as error:
         print("\n========== AI ERROR ==========")
         print(error)
-        print("==============================\n")
+        print("==============================")
 
         return FileClassification(
             category="Others",
