@@ -1,28 +1,53 @@
 from pathlib import Path
 
-from .classifier import get_category
+from .ai_classifier import classify_file
 from .mover import move_file
+
+SKIP_FOLDERS = {
+    "Documents",
+    "Images",
+    "Videos",
+    "Music",
+    "Archives",
+    "Programming",
+    "Finance",
+    "Education",
+    "Personal",
+    "Applications",
+    "Others",
+}
 
 
 def scan_directory(folder: Path) -> None:
     """
-    Scan a directory and organize files.
+    Scan a directory recursively and organize files.
     """
 
     total = 0
 
     print("\nScanning folder...\n")
 
-    for item in folder.iterdir():
+    for item in folder.rglob("*"):
 
         if not item.is_file():
             continue
 
-        category = get_category(item)
+        if item.parent.name in SKIP_FOLDERS:
+            continue
 
-        print(f"{item.name:<35} -> {category}")
+        classification = classify_file(item)
 
-        move_file(item, category)
+        print(
+            f"{item.name:<35} "
+            f"-> {classification.category:<15} "
+            f"({classification.confidence:.0%})"
+        )
+
+        print(f"Reason: {classification.reason}")
+
+        move_file(item, classification.category)
+
+        print()
 
         total += 1
 

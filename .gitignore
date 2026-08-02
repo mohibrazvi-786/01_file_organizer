@@ -24,6 +24,9 @@ logs/
 # VS Code
 .vscode/
 
+# Generated Output
+organized_files/
+
 # OS files
 .DS_Store
 Thumbs.db
