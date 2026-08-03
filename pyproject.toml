@@ -1,0 +1,16 @@
+[tool.black]
+line-length = 88
+target-version = ["py313"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+exclude = [
+    ".venv",
+    "__pycache__",
+    "playground",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
